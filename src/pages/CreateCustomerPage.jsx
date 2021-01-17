@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -8,7 +8,8 @@ import FormCustomerStyled from '../styling/FormCustomerStyled'
 import InputCustomerStyled from '../styling/InputCustomerStyled'
 
 export default function CreateCustomerPage() {
-    const {customerData, setCustomerData, customerList, setCustomerList} = useContext(UserDataContext)
+    const [customerData, setCustomerData] = useState(null)
+    const {customerList, setCustomerList, getCustomerList} = useContext(UserDataContext)
     const history = useHistory()
 
     function renderInput(name, label, type) {
@@ -25,13 +26,21 @@ export default function CreateCustomerPage() {
         )
     }
 
+    
+    useEffect(() => {
+        if (!customerList) {
+            getCustomerList()
+        }
+        
+    }, [])
+
     function handleOnChange(e) {
         setCustomerData({...customerData, [e.target.name]: e.target.value})
     }
 
     function handleOnSubmit(e) {
         e.preventDefault()
-
+        console.log(customerList)
         let vatNr = document.getElementById("vatNr").value
         let paymentTerm = document.getElementById("paymentTerm").value
         let num = Array.from(vatNr.slice(2));
