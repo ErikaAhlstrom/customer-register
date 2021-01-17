@@ -32,8 +32,6 @@ export default function CreateCustomerPage() {
     function handleOnSubmit(e) {
         e.preventDefault()
 
-        console.log(customerList)
-
         let vatNr = document.getElementById("vatNr").value
         let paymentTerm = document.getElementById("paymentTerm").value
         let num = Array.from(vatNr.slice(2));
@@ -67,7 +65,6 @@ export default function CreateCustomerPage() {
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setCustomerList([...customerList, data]);
                 history.push("/home")
             })

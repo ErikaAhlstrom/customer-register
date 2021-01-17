@@ -13,12 +13,10 @@ export default function HomePage() {
     useEffect(() => {
         if (!customerList) {
             getCustomerList()
-            console.log("Anropar customer list från home!")
         }
 
         if(!user) {
             getMe()
-            console.log("Anropar getMe från home!")
         }
         
     }, [])
