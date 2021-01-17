@@ -28,12 +28,14 @@ export const ButtonStyled = styled.button `
 `
 export const ButtonGreenStyled = styled(ButtonStyled) `
     border: solid 4px ${colors.green};
+    color: ${colors.green};
+    margin-left: 1rem;
     &:hover, &:focus {
             background-color: ${colors.green};
         }
     
     a {
-        color: ${colors.green};
+        
         &:hover, &:focus {
             background-color: ${colors.green};
         }

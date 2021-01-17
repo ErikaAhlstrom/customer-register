@@ -12,7 +12,7 @@ const ListItemStyled = styled.div `
         color: ${colors.white};           
 
         &:hover, &:focus {
-            color: ${colors.darkCoral};
+            color: ${colors.darkBlue};
             transition: .5s;
         }
     }

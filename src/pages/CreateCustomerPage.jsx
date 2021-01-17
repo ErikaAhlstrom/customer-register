@@ -66,7 +66,7 @@ export default function CreateCustomerPage() {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                setCustomerData({...customerData, })
+                setCustomerList([...customerList, data]);
                 history.push("/home")
             })
         }
@@ -74,7 +74,6 @@ export default function CreateCustomerPage() {
 
     return (
         <div>
-            
             <Header />            
             <FormCustomerStyled onSubmit={handleOnSubmit}>
                 {renderInput("name", "Name")}

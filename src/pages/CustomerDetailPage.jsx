@@ -5,29 +5,23 @@ import Header from '../components/Header'
 import { UserDataContext } from '../contexts/UserDataContext'
 import {ButtonStyled} from '../styling/ButtonStyled'
 import {ButtonGreenStyled} from '../styling/ButtonStyled'
+import DetailButtonsContainer from '../styling/DetailButtonsContainer'
+import DetailContainerStyled from '../styling/DetailContainerStyled'
+import TableStyled from '../styling/TableStyled'
 
 export default function CustomerDetailPage(props) {
     
-    const {customerData, setCustomerData} = useContext(UserDataContext)
+    const {customerData, customerList, setCustomerList, getCustomerData} = useContext(UserDataContext)
     const customerId = props.match.params.id
     const history = useHistory()
 
-    useEffect(() => {
-        getCustomerData()
+        useEffect(() => {
+        if (!customerList) {
+            getCustomerData()
+            console.log("Anropar customer list från detail!")
+        }
+        
     }, [])
-
-    function getCustomerData(){
-        const url = `https://frebi.willandskill.eu/api/v1/customers/${customerId}/`
-        const token = localStorage.getItem("ea")
-        fetch(url, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        })
-        .then(res => res.json())
-        .then(data => setCustomerData(data))
-    }
 
     function deleteCustomer() {
         const url = `https://frebi.willandskill.eu/api/v1/customers/${customerId}/`
@@ -39,7 +33,16 @@ export default function CustomerDetailPage(props) {
                 "Authorization": `Bearer ${token}`
             }
         })
-        .then(() => history.push('/home'))
+        .then(() => {
+            setCustomerList(UpdateCustomerList())
+            history.push('/home')
+        })
+    }
+
+    function UpdateCustomerList() {
+        customerList.splice(customerList.findIndex(function(i){
+        return i.id === customerId;
+        }), 1);
     }
 
     return (
@@ -47,8 +50,8 @@ export default function CustomerDetailPage(props) {
             <Header />
             {customerData
             ? (
-                <div>
-                    <table>
+                <DetailContainerStyled>
+                    <TableStyled>
                         <tbody>
                             <tr>
                                 <td>Name</td>
@@ -83,17 +86,17 @@ export default function CustomerDetailPage(props) {
                                 <td>{customerData.phoneNumber}</td>
                             </tr>
                         </tbody>
-                    </table>
-                    
-                    <ButtonStyled onClick={deleteCustomer}>DELETE</ButtonStyled>
-                    <ButtonGreenStyled><Link to={`/customers/${customerId}/update`}>UPDATE</Link></ButtonGreenStyled>
-                    
-                    <Footer />
-                </div>
+                    </TableStyled>
+                    <DetailButtonsContainer>
+                        <ButtonStyled onClick={deleteCustomer}>DELETE</ButtonStyled>
+                        <Link to={`/customers/${customerId}/update`}><ButtonGreenStyled>UPDATE</ButtonGreenStyled></Link>
+                    </DetailButtonsContainer>
+                </DetailContainerStyled>
             )
             :
             <p>Loading...</p>
-            }
+        }
+        <Footer />
         </div>
     )
 }
