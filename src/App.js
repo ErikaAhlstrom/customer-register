@@ -9,7 +9,6 @@ import UpdateCustomerPage from './pages/UpdateCustomerPage';
 
 function App() {
   const [user, setUser] = useState(null)
-  const [customerData, setCustomerData] = useState(null)
   const [customerList, setCustomerList] = useState(null)
 
   function getCustomerList() {
@@ -45,7 +44,7 @@ function App() {
   return (
     <div className="">
       
-      <UserDataContext.Provider value={{customerData, setCustomerData, customerList, setCustomerList, user, setUser, getMe, getCustomerList}}>  
+      <UserDataContext.Provider value={{customerList, setCustomerList, user, setUser, getMe, getCustomerList}}>  
           <Switch>
 
             <Route path="/customers/create">

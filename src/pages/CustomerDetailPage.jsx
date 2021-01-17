@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -11,17 +11,27 @@ import TableStyled from '../styling/TableStyled'
 
 export default function CustomerDetailPage(props) {
     
-    const {customerData, customerList, setCustomerList, getCustomerData} = useContext(UserDataContext)
+    const [customerData, setCustomerData] = useState(null)
+    const {customerList, setCustomerList, getCustomerList} = useContext(UserDataContext)
     const customerId = props.match.params.id
     const history = useHistory()
 
         useEffect(() => {
-        if (!customerList) {
-            getCustomerData()
-            console.log("Anropar customer list från detail!")
-        }
-        
+            getCustomerData()       
     }, [])
+
+        function getCustomerData(){
+        const url = `https://frebi.willandskill.eu/api/v1/customers/${customerId}/`
+        const token = localStorage.getItem("ea")
+        fetch(url, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => setCustomerData(data))
+    }
 
     function deleteCustomer() {
         const url = `https://frebi.willandskill.eu/api/v1/customers/${customerId}/`
@@ -34,12 +44,12 @@ export default function CustomerDetailPage(props) {
             }
         })
         .then(() => {
-            setCustomerList(UpdateCustomerList())
+            setCustomerList(updateCustomerList())
             history.push('/home')
         })
     }
 
-    function UpdateCustomerList() {
+    function updateCustomerList() {
         customerList.splice(customerList.findIndex(function(i){
         return i.id === customerId;
         }), 1);

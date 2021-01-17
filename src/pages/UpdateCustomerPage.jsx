@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -8,7 +8,7 @@ import FormCustomerStyled from '../styling/FormCustomerStyled'
 import InputCustomerStyled from '../styling/InputCustomerStyled'
 
 export default function UpdateCustomerPage(props) {
-    const {customerData, setCustomerData} = useContext(UserDataContext)
+    const [customerData, setCustomerData] = useState(null)
     const customerId = props.match.params.id
     const history = useHistory()
 

@@ -7,7 +7,6 @@ export default function Footer() {
         useEffect(() => {
         if (!user) {
             getMe()
-            console.log("Anropar från Footer!")
         }
         
     }, [])

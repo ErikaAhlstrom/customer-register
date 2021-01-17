@@ -10,7 +10,6 @@ export default function Header() {
         useEffect(() => {
         if (!user) {
             getMe()
-            console.log("Anropar från Header!")
         }
         
     }, [])

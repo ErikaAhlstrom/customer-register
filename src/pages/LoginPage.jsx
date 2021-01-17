@@ -32,7 +32,6 @@ export default function LoginPage() {
             localStorage.setItem("ea", data.token)
             getMe()
             getCustomerList()
-            console.log("Anropar från login!");
             history.push("/home")
         })
     }
